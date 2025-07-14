@@ -29,11 +29,30 @@ func NewServer() *Server {
 	return &Server{}
 }
 
-func (s *Server) Start(addr string) {
-	http.HandleFunc("/check", s.checkHandler)
+func corsMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 
-	log.Printf("Servidor escutando em %s\n", addr)
-	log.Fatal(http.ListenAndServe(addr, nil))
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+func (s *Server) Start(addr string) {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/check", s.checkHandler)
+
+	handlerComCORS := corsMiddleware(mux)
+
+	log.Printf("Servidor de verificação sob demanda escutando em %s\n", addr)
+	log.Fatal(http.ListenAndServe(addr, handlerComCORS))
+
 }
 
 func (s *Server) checkHandler(w http.ResponseWriter, r *http.Request) {
