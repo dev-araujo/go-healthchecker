@@ -1,15 +1,18 @@
 package checker
 
 import (
-	"fmt"
 	"net/http"
+	"strings"
 	"time"
 )
 
 type Result struct {
-	URL     string
-	Status  string
-	Latency time.Duration
+	URL        string `json:"url"`
+	IsUp       bool   `json:"isUp"`
+	StatusCode int    `json:"statusCode"`
+	StatusText string `json:"statusText"`
+	LatencyMs  int64  `json:"latencyMs"`
+	Error      string `json:"error,omitempty"`
 }
 
 func RunChecks(urls []string) []Result {
@@ -35,10 +38,29 @@ func checkURL(url string, ch chan<- Result) {
 	latency := time.Since(startTime).Round(time.Millisecond)
 
 	if err != nil {
-		ch <- Result{URL: url, Status: fmt.Sprintf("Erro: %v", err), Latency: latency}
+		ch <- Result{URL: url,
+			IsUp:       false,
+			StatusCode: 0,
+			StatusText: "Network Error",
+			LatencyMs:  latency.Milliseconds(),
+			Error:      err.Error()}
 		return
 	}
 	defer resp.Body.Close()
+	isUp := resp.StatusCode >= 200 && resp.StatusCode <= 299
+	statusText := strings.TrimPrefix(resp.Status, string(resp.StatusCode)+" ")
 
-	ch <- Result{URL: url, Status: resp.Status, Latency: latency}
+	result := Result{
+		URL:        url,
+		IsUp:       isUp,
+		StatusCode: resp.StatusCode,
+		StatusText: statusText,
+		LatencyMs:  latency.Milliseconds(),
+	}
+
+	if !isUp {
+		result.Error = resp.Status
+	}
+
+	ch <- result
 }
