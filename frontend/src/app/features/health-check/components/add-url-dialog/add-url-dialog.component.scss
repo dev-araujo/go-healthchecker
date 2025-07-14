@@ -1,0 +1,14 @@
+.w-full {
+  width: 100%;
+}
+
+mat-dialog-content {
+  p {
+    margin-top: 0;
+    color: var(--text-secondary-color);
+  }
+}
+
+mat-dialog-actions {
+  padding: 0 24px 24px;
+}

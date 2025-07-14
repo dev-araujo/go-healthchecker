@@ -1,0 +1,65 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f4f7fa; 
+}
+
+.app-toolbar {
+  background-color: var(--card-background-color, #ffffff);
+  border-bottom: 1px solid var(--divider-color, #e0e0e0);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+
+  .logo-icon {
+    margin-right: 0.5rem;
+  }
+  
+  span {
+    font-weight: 500;
+  }
+}
+
+.content-wrapper {
+  flex: 1;
+  padding: 2.5rem; 
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 1.5rem;
+  }
+
+  .app-toolbar {
+    span {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .content-wrapper {
+    padding: 1rem;
+  }
+}

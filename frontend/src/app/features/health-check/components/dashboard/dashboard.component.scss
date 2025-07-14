@@ -1,0 +1,152 @@
+:host {
+  display: block;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  h1 {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 500;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  button mat-icon {
+    margin-right: 0.5rem;
+  }
+}
+
+.dashboard-progress {
+  margin-bottom: 1rem;
+}
+
+.table-container {
+  background-color: var(--card-background-color, #fff);
+  border-radius: var(--border-radius, 8px);
+  box-shadow: var(--box-shadow, 0 4px 6px rgba(0, 0, 0, 0.1));
+  overflow: hidden; 
+}
+
+table {
+  width: 100%;
+  border-spacing: 0;
+}
+
+.mat-mdc-header-cell {
+  background-color: transparent;
+  color: var(--text-secondary-color, #757575);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+.mat-mdc-row {
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  border-bottom: 1px solid var(--divider-color, #e0e0e0);
+
+  &:hover {
+    background-color: rgba(0,0,0,0.03);
+  }
+
+  &.expanded-row {
+    background-color: rgba(103, 58, 183, 0.05);
+  }
+}
+
+.mat-mdc-cell {
+  padding: 1rem;
+  color: var(--text-color, #333);
+}
+
+.url-cell {
+  font-weight: 500;
+}
+
+.status-cell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  
+  &.status-up { background-color: #4caf50; } 
+  &.status-down { background-color: #f44336; } 
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 500;
+
+  &.status-up { 
+    background-color: rgba(76, 175, 80, 0.1); 
+    color: #388e3c; 
+  }
+  &.status-down { 
+    background-color: rgba(244, 67, 54, 0.1); 
+    color: #d32f2f; 
+  }
+}
+
+.detail-row {
+  height: 0;
+}
+
+.element-detail {
+  overflow: hidden;
+  display: flex;
+  background-color: rgba(0,0,0,0.02);
+  
+  .detail-content {
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .error-details {
+    color: var(--warn-color, #f44336);
+    font-family: monospace;
+    font-size: 0.85rem;
+  }
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+  text-align: center;
+  color: var(--text-secondary-color);
+  background-color: var(--card-background-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+
+  .empty-state-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+}

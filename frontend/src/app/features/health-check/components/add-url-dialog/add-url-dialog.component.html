@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Adicionar Nova URL</h2>
+
+<mat-dialog-content>
+  <p>Insira a URL completa do serviço que você deseja monitorar.</p>
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>URL do Serviço</mat-label>
+    <input 
+      matInput 
+      [formControl]="urlControl" 
+      placeholder="https://exemplo.com"
+      (keydown.enter)="onConfirm()">
+    @if (urlControl.invalid) {
+      <mat-error>{{ getErrorMessage() }}</mat-error>
+    }
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-flat-button color="primary" [disabled]="urlControl.invalid" (click)="onConfirm()">
+    Adicionar
+  </button>
+</mat-dialog-actions>
