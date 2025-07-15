@@ -1,5 +1,21 @@
 :host {
   display: block;
+
+  input{
+    width: 100%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: var(--border-radius, 4px);
+    font-size: 0.875rem;
+    color: var(--text-color, #333);
+    box-sizing: border-box;
+    transition: border-color 0.2s ease-in-out;
+
+    &:focus {
+      border-color: var(--primary-color, #6200ea);
+      outline: none;
+    }
+  }
 }
 
 .dashboard-header {
@@ -53,7 +69,7 @@ table {
   border-bottom: 1px solid var(--divider-color, #e0e0e0);
 
   &:hover {
-    background-color: rgba(0,0,0,0.03);
+    background:var(--background-color);
   }
 
   &.expanded-row {
@@ -62,18 +78,20 @@ table {
 }
 
 .mat-mdc-cell {
-  padding: 1rem;
+ 
   color: var(--text-color, #333);
 }
 
 .url-cell {
   font-weight: 500;
+  padding:1.5rem
 }
 
 .status-cell {
   display: flex;
   align-items: center;
   gap: 1rem;
+  padding:1rem;
 }
 
 .status-indicator {
@@ -108,14 +126,16 @@ table {
 .element-detail {
   overflow: hidden;
   display: flex;
-  background-color: rgba(0,0,0,0.02);
+  
   
   .detail-content {
+    width:100%;
     padding: 1.5rem 2rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
     font-size: 0.9rem;
+    background-color: rgba(0,0,0,0.02);
   }
 
   .error-details {
