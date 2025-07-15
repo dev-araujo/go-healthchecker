@@ -7,7 +7,7 @@ import { ApiResponse } from '../models/health-check.model';
   providedIn: 'root'
 })
 export class ApiService {
-  private readonly apiUrl = 'http://localhost:8080/check';
+  private readonly apiUrl = 'https://go-healthchecker.onrender.com/check';
 
   constructor(private http: HttpClient) { }
 
