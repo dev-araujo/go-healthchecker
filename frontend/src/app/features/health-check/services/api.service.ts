@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../models/health-check.model';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private readonly apiUrl = 'https://go-healthchecker.onrender.com/check';
+  private readonly apiUrl = `${environment.apiUrl}/check`;
 
   constructor(private http: HttpClient) { }
 
