@@ -1,56 +1,61 @@
-package checker
+package healthcheck
 
 import (
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
+
+	"github.com/dev-araujo/go-healthchecker/pkg/models"
 )
 
-type Result struct {
-	URL        string `json:"url"`
-	IsUp       bool   `json:"isUp"`
-	StatusCode int    `json:"statusCode"`
-	StatusText string `json:"statusText"`
-	LatencyMs  int64  `json:"latencyMs"`
-	Error      string `json:"error,omitempty"`
+type Checker interface {
+	RunChecks(urls []string) []models.HealthURL
 }
 
-func RunChecks(urls []string) []Result {
-	resultsChannel := make(chan Result)
-	var results []Result
+type checker struct{}
 
+func NewChecker() Checker {
+	return &checker{}
+}
+
+func (c *checker) RunChecks(urls []string) []models.HealthURL {
+	resultsChannel := make(chan models.HealthURL, len(urls))
 	for _, url := range urls {
 		go checkURL(url, resultsChannel)
 	}
 
+	results := make([]models.HealthURL, 0, len(urls))
 	for i := 0; i < len(urls); i++ {
-		result := <-resultsChannel
-		results = append(results, result)
+		results = append(results, <-resultsChannel)
 	}
 
 	return results
 }
 
-func checkURL(url string, ch chan<- Result) {
+func checkURL(url string, ch chan<- models.HealthURL) {
 	startTime := time.Now()
 
 	resp, err := http.Get(url)
 	latency := time.Since(startTime).Round(time.Millisecond)
 
 	if err != nil {
-		ch <- Result{URL: url,
+		ch <- models.HealthURL{
+			URL:        url,
 			IsUp:       false,
 			StatusCode: 0,
 			StatusText: "Network Error",
 			LatencyMs:  latency.Milliseconds(),
-			Error:      err.Error()}
+			Error:      err.Error(),
+		}
 		return
 	}
 	defer resp.Body.Close()
-	isUp := resp.StatusCode >= 200 && resp.StatusCode <= 299
-	statusText := strings.TrimPrefix(resp.Status, string(resp.StatusCode)+" ")
 
-	result := Result{
+	isUp := resp.StatusCode >= 200 && resp.StatusCode <= 299
+	statusText := strings.TrimPrefix(resp.Status, strconv.Itoa(resp.StatusCode)+" ")
+
+	result := models.HealthURL{
 		URL:        url,
 		IsUp:       isUp,
 		StatusCode: resp.StatusCode,
