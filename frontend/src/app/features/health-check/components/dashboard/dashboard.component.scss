@@ -80,7 +80,9 @@
   background-color: var(--card-background-color, #fff);
   border-radius: var(--border-radius, 8px);
   box-shadow: var(--box-shadow, 0 4px 6px rgba(0, 0, 0, 0.1));
-  overflow: hidden;
+  overflow: auto;
+  max-height: 80vh;
+  height:fit-content;
 }
 
 table {

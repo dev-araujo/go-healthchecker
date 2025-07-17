@@ -132,7 +132,8 @@
             }
             <span
               ><strong>Verificado em:</strong>
-              {{ element.lastChecked | date : "dd/MM/yyyy HH:mm:ss" }}
+              {{ element.lastChecked | date : "dd/MM/yyyy" }} às
+              {{ element.lastChecked | date : " HH:mm:ss" }}
             </span>
             <span><strong>Status Code: </strong> {{ element.statusCode }}</span>
             @if (element.error) {

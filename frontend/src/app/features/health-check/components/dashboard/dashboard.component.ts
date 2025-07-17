@@ -85,8 +85,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private urls: string[] = [
     'https://www.google.com',
     'https://api.github.com',
-    'https://httpstat.us/404',
-    'https://httpstat.us/500',
+    'https://api.coingecko.com/api/v3/simple',
+    'https://reqres.in/api/users',
+    
   ];
 
   apiService = inject(ApiService);
