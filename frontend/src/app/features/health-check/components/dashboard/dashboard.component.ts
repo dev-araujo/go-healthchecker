@@ -86,7 +86,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     'https://www.google.com',
     'https://api.github.com',
     'https://api.coingecko.com/api/v3/simple',
-    'https://reqres.in/api/users',
+    'https://reqres.in/api/users/2',
     
   ];
 
