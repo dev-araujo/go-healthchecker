@@ -32,15 +32,15 @@ O **Go Health Checker** é uma aplicação de monitoramento do status de saúde 
 
 **Backend**
 
-- **Go:** 💙
-- **Goroutines:**
-- **API RESTful:**
+- **Go** 💙
+- **Goroutines**
+- **API RESTful**
 
 **Frontend**
 
-- **Angular (v20):**
-- **Angular Material:**
-- **RxJS:**
+- **Angular (v20)**
+- **Angular Material**
+- **RxJS**
 
 ## Rodando Localmente ⚡️
 
