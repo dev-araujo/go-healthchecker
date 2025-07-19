@@ -18,10 +18,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { finalize, map, Subject, takeUntil } from 'rxjs';
+import { finalize, map, repeat, Subject, takeUntil } from 'rxjs';
 
 import { ApiService } from '../../services/api.service';
-import { CheckResult } from '../../models/health-check.model';
+import { ApiResponse, CheckResult } from '../../models/health-check.model';
 import { AddUrlDialogComponent } from '../add-url-dialog/add-url-dialog.component';
 import { DialogComponent } from '../../../../core/shared/dialog/dialog.component';
 
@@ -87,7 +87,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     'https://api.github.com',
     'https://api.coingecko.com/api/v3/simple',
     'https://reqres.in/api/users/2',
-    
   ];
 
   apiService = inject(ApiService);
@@ -96,7 +95,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.handleBreakPoints();
-    this.refreshAll();
+    this.refreshAll(2);
   }
 
   ngOnDestroy(): void {
@@ -143,10 +142,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.breakpointObserver
       .observe([Breakpoints.Handset, Breakpoints.TabletPortrait])
       .pipe(
-        map((result) => result.matches),
+        map((result: any) => result.matches),
         takeUntil(this.destroy$)
       )
-      .subscribe((isHandset) => {
+      .subscribe((isHandset: any) => {
         this.isHandset = isHandset;
         if (isHandset) {
           this.columnsToDisplay = this.mobileColumns;
@@ -156,7 +155,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
   }
 
-  refreshAll(): void {
+  refreshAll(tries=1): void {
     if (this.urls.length === 0) {
       this.dataSource.data = [];
       return;
@@ -164,9 +163,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.apiService
       .checkUrls(this.urls)
-      .pipe(finalize(() => (this.isLoading = false)))
-      .subscribe((response) => {
-        this.dataSource.data = response.results.map((res) => ({
+      .pipe(
+        finalize(() => (this.isLoading = false)),
+        repeat(tries),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((response: ApiResponse) => {
+        this.dataSource.data = response.results.map((res: any) => ({
           ...res,
           lastChecked: response.checkedAt,
         }));
@@ -179,7 +182,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       maxWidth: '95vw',
     });
 
-    dialogRef.afterClosed().subscribe((newUrl) => {
+    dialogRef.afterClosed().subscribe((newUrl: string) => {
       if (newUrl && !this.urls.includes(newUrl)) {
         this.urls.push(newUrl);
         this.urls.sort();
