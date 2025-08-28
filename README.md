@@ -42,7 +42,7 @@ O **Go Health Checker** é uma aplicação de monitoramento do status de saúde 
 - **Angular Material**
 - **RxJS**
 
-## Rodando Localmente ⚡️
+## Rodando a aplicação ⚡️
 
 > 1. **Para instruções de como rodar o projeto manualmente (sem Docker), veja o arquivo [RUN_MANUALLY.md](./RUN_MANUALLY.md).**
 > 2. Para rodar a aplicação localmente utilizando Docker, siga os passos **abaixo** ⬇️:
